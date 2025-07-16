@@ -1,4 +1,5 @@
 <template>
+   <AppLayout>
   <div class="p-6 max-w-7xl mx-auto font-sans bg-gray-50 min-h-screen">
     <!-- Header -->
     <div class="text-center mb-6">
@@ -90,44 +91,6 @@
       </div>
     </div>
 
-    <!-- Add Attraction Modal -->
-    <!-- <div v-if="showAddForm" class="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
-      <div class="bg-white p-6 rounded shadow-lg w-[90%] max-w-md">
-        <h2 class="text-lg font-semibold mb-4">Add New Attraction</h2>
-        <div class="space-y-3">
-          <input v-model="newAttraction.name" placeholder="Name" class="w-full border px-3 py-2 rounded" />
-          <input v-model.number="newAttraction.rating" type="number" step="0.01" min="0" max="5" placeholder="Rating"
-            class="w-full border px-3 py-2 rounded" />
-          <select v-model="newAttraction.price" class="w-full border px-3 py-2 rounded">
-            <option>$</option>
-            <option>$$</option>
-            <option>$$$</option>
-          </select>
-          <select v-model="newAttraction.category" class="w-full border px-3 py-2 rounded">
-            <option v-for="cat in categories" :key="cat.name" :value="cat.name">{{ cat.name }}</option>
-          </select>
-          <input v-model.number="newAttraction.distance" type="number" step="0.1" placeholder="Distance (km)"
-            class="w-full border px-3 py-2 rounded" />
-          <select v-model="newAttraction.country" class="w-full border px-3 py-2 rounded">
-            <option v-for="c in countries" :key="c.name" :value="c.name">{{ c.name }}</option>
-          </select>
-          <select v-model="newAttraction.city" class="w-full border px-3 py-2 rounded">
-            <option v-for="city in countries.find(c => c.name === newAttraction.country)?.cities" :key="city"
-              :value="city">
-              {{ city }}
-            </option>
-          </select>
-          <input type="file" accept="image/*" @change="handleImageUpload" class="w-full border px-3 py-2 rounded" />
-          <div v-if="newAttraction.image" class="mt-2">
-            <img :src="newAttraction.image" alt="Preview" class="rounded w-full h-40 object-cover" />
-          </div>
-        </div>
-        <div class="flex justify-end gap-2 mt-4">
-          <button class="text-sm px-3 py-1 border rounded" @click="showAddForm = false">Cancel</button>
-          <button class="bg-blue-600 text-white text-sm px-3 py-1 rounded" @click="addAttraction">Add</button>
-        </div>
-      </div>
-    </div> -->
     <div v-if="showAddForm" class="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
   <div class="bg-white p-6 rounded shadow-lg w-[90%] max-w-3xl">
     <h2 class="text-lg font-semibold mb-4">Add New Attraction</h2>
@@ -214,12 +177,14 @@
       </div>
     </div>
   </div>
+  </AppLayout>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
 import { router } from '@inertiajs/vue3'
 import { route } from 'ziggy-js'
+import AppLayout from '@/Layouts/AppLayout.vue'
 
 // Categories
 const categories = [

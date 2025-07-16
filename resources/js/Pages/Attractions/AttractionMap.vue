@@ -1,7 +1,9 @@
 <template>
+    <AppLayout>
   <div class="w-full h-screen">
     <div id="map" class="w-full h-full"></div>
   </div>
+  </AppLayout>
 </template>
 
 <script setup>
@@ -9,6 +11,7 @@ import { onMounted } from 'vue'
 import { usePage } from '@inertiajs/vue3'
 import L from 'leaflet'
 import 'leaflet.markercluster'
+import AppLayout from '@/Layouts/AppLayout.vue'
 
 const props = defineProps({
   locations: Array
