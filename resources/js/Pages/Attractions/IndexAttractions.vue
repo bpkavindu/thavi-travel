@@ -91,7 +91,7 @@
     </div>
 
     <!-- Add Attraction Modal -->
-    <div v-if="showAddForm" class="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
+    <!-- <div v-if="showAddForm" class="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
       <div class="bg-white p-6 rounded shadow-lg w-[90%] max-w-md">
         <h2 class="text-lg font-semibold mb-4">Add New Attraction</h2>
         <div class="space-y-3">
@@ -127,7 +127,63 @@
           <button class="bg-blue-600 text-white text-sm px-3 py-1 rounded" @click="addAttraction">Add</button>
         </div>
       </div>
+    </div> -->
+    <div v-if="showAddForm" class="fixed inset-0 bg-black bg-opacity-30 flex justify-center items-center z-50">
+  <div class="bg-white p-6 rounded shadow-lg w-[90%] max-w-3xl">
+    <h2 class="text-lg font-semibold mb-4">Add New Attraction</h2>
+
+    <!-- Two-column layout -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <!-- Column 1 -->
+      <div class="space-y-3">
+        <input v-model="newAttraction.name" @blur="fetchCoordinates" placeholder="Name"
+          class="w-full border px-3 py-2 rounded" />
+        <input v-model.number="newAttraction.rating" type="number" step="0.01" min="0" max="5" placeholder="Rating"
+          class="w-full border px-3 py-2 rounded" />
+        <select v-model="newAttraction.price" class="w-full border px-3 py-2 rounded">
+          <option>$</option>
+          <option>$$</option>
+          <option>$$$</option>
+        </select>
+        <select v-model="newAttraction.category" class="w-full border px-3 py-2 rounded">
+          <option v-for="cat in categories" :key="cat.name" :value="cat.name">{{ cat.name }}</option>
+        </select>
+        <input v-model.number="newAttraction.distance" type="number" step="0.1" placeholder="Distance (km)"
+          class="w-full border px-3 py-2 rounded" />
+      </div>
+
+      <!-- Column 2 -->
+      <div class="space-y-3">
+        <input v-model="newAttraction.lat" placeholder="Latitude" readonly
+          class="w-full border px-3 py-2 rounded bg-gray-100" />
+        <input v-model="newAttraction.lon" placeholder="Longitude" readonly
+          class="w-full border px-3 py-2 rounded bg-gray-100" />
+        <select v-model="newAttraction.country" class="w-full border px-3 py-2 rounded">
+          <option v-for="c in countries" :key="c.name" :value="c.name">{{ c.name }}</option>
+        </select>
+        <select v-model="newAttraction.city" class="w-full border px-3 py-2 rounded">
+          <option v-for="city in countries.find(c => c.name === newAttraction.country)?.cities" :key="city"
+            :value="city">
+            {{ city }}
+          </option>
+        </select>
+        <input type="file" accept="image/*" @change="handleImageUpload"
+          class="w-full border px-3 py-2 rounded" />
+        <div v-if="newAttraction.image" class="mt-2">
+          <img :src="newAttraction.image" alt="Preview" class="rounded w-full h-40 object-cover" />
+        </div>
+      </div>
     </div>
+
+    <!-- Buttons -->
+    <div class="flex justify-end gap-2 mt-6">
+      <button class="text-sm px-3 py-1 border rounded" @click="showAddForm = false">Cancel</button>
+      <button class="bg-blue-600 text-white text-sm px-3 py-1 rounded" @click="addAttraction">Add</button>
+    </div>
+  </div>
+</div>
+
+  
 
     <!-- AI Assistant Modal -->
     <div v-if="showAssistant" class="fixed inset-0 bg-black bg-opacity-40 flex justify-center items-center z-50">
@@ -215,9 +271,11 @@ const newAttraction = ref({
   price: '$',
   category: 'Adventure',
   distance: null,
-  country: selectedCountry.value,
-  city: selectedCity.value,
+  country: 'Sri Lanka',
+  city: 'Colombo',
   image: null,
+  latitude: null,
+  longitude: null
 })
 
 // Image upload preview handler
@@ -243,6 +301,8 @@ function addAttraction() {
     country: newAttraction.value.country,
     city: newAttraction.value.city,
     image: newAttraction.value.image,
+    latitude:newAttraction.value.lat,
+    longitude: newAttraction.value.lon,
   }, {
     onSuccess: () => {
       newAttraction.value = {
@@ -254,6 +314,8 @@ function addAttraction() {
         country: selectedCountry.value,
         city: selectedCity.value,
         image: null,
+        latitude: null,
+        longitude: null
       }
       showAddForm.value = false
     },
@@ -410,7 +472,21 @@ async function sendAssistantMessage() {
     isTyping.value = false // ✅ End typing state
   }
 }
-
+const fetchCoordinates = async () => {
+  if (!newAttraction.value.name) return
+  try {
+    const response = await axios.get(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(newAttraction.value.name)}&format=json&limit=1`)
+    if (response.data.length > 0) {
+      newAttraction.value.lat = response.data[0].lat
+      newAttraction.value.lon = response.data[0].lon
+    } else {
+      alert('Location not found. Try a more specific name.')
+    }
+  } catch (error) {
+    console.error('Error fetching coordinates:', error)
+    alert('Failed to get coordinates.')
+  }
+}
 
 
 </script>

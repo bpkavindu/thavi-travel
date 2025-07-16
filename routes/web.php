@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AIController;
 use App\Http\Controllers\AttractionController;
+use App\Http\Controllers\AttractionMapController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/attraction', [AttractionController::class, 'index'])->name('attraction.index');
     Route::post('/attraction/store', [AttractionController::class, 'store'])->name('attraction.store');
+    Route::get('/attractionsmap/map', [AttractionMapController::class, 'showMap']);
+
 
 
 });

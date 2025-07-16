@@ -18,6 +18,8 @@
         "vue": "^3.4.0"
     },
     "dependencies": {
+        "leaflet": "^1.9.4",
+        "leaflet.markercluster": "^1.5.3",
         "ziggy-js": "^2.5.3"
     }
 }

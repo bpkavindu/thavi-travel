@@ -20,7 +20,9 @@ return new class extends Migration
             $table->decimal('distance', 6, 2); // e.g., 12.50 km
             $table->string('country', 100);
             $table->string('city', 100);
-            $table->longText('image')->nullable(); // For base64 or image path
+            $table->longText('image')->nullable();
+            $table->decimal('latitude', 10, 7)->nullable();
+            $table->decimal('longitude', 10, 7)->nullable(); 
             $table->timestamps();
         });
     }

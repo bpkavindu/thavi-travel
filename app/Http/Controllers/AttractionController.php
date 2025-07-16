@@ -23,6 +23,7 @@ class AttractionController extends Controller
 
 public function store(Request $request)
 {
+ 
     // Validate incoming data
     $validated = $request->validate([
         'name' => 'required|string|max:255',
@@ -32,7 +33,9 @@ public function store(Request $request)
         'distance' => 'required|numeric|min:0',
         'country' => 'required|string|max:100',
         'city' => 'required|string|max:100',
-        'image' => 'nullable|string', // base64 string or nullable
+        'image' => 'nullable|string',
+        'latitude' => 'required',
+        'longitude' => 'required',
     ]);
 
     // Save to DB
