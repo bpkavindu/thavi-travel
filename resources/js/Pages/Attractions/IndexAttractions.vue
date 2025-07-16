@@ -177,13 +177,14 @@ const categories = [
 
 // Props (for initial attractions)
 const props = defineProps({
-  attractions: Array
+  attractions: Array,
+  districts: Array
 })
 
 // State refs
 const selectedCategory = ref('All')
 const selectedCountry = ref('Sri Lanka')
-const selectedCity = ref('Colombo')
+const selectedCity = ref('Central Province')
 const showLocationSelector = ref(false)
 const showAddForm = ref(false)
 const province = ref(null)
@@ -195,10 +196,13 @@ const assistantMessages = ref([
 ])
 
 // Countries & cities
+const cities = props.districts.map(d => d.name)
+
 const countries = ref([
-  { name: 'Sri Lanka', cities: ['Colombo', 'Kandy', 'Galle'] },
-  { name: 'India', cities: ['Delhi', 'Mumbai', 'Chennai'] },
-  { name: 'Thailand', cities: ['Bangkok', 'Phuket', 'Chiang Mai'] },
+  {
+    name: 'Sri Lanka',
+    cities: cities
+  }
 ])
 
 // Attractions reactive list
@@ -323,6 +327,7 @@ async function getLocation() {
       selectedCountry.value = 'Sri Lanka' // fix if needed to dynamic
 
       const availableCities = countries.value.find(c => c.name === selectedCountry.value)?.cities || []
+console.log(result);
 
       if (result.city && availableCities.includes(result.city)) {
         selectedCity.value = result.city

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Attraction;
+use App\Models\Province;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,9 +13,11 @@ class AttractionController extends Controller
   public function index()
 {
     $attractions = Attraction::all();
+    $province = Province::all();
 
     return Inertia::render('Attractions/IndexAttractions', [
-        'attractions' => $attractions
+        'attractions' => $attractions,
+         'districts' => $province,
     ]);
 }
 
