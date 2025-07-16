@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AIController;
 use App\Http\Controllers\AttractionController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,7 @@ Route::get('/', function () {
     return Inertia::render('Qr', [
     ]);
 });
+ 
 
 Route::get('/admin', function () {
     return Inertia::render('Welcome', [
