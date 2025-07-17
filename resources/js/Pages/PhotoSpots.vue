@@ -1,4 +1,7 @@
+
 <script setup>
+import { Link } from '@inertiajs/vue3'
+
 defineProps({
   spots: Array
 })
@@ -6,7 +9,18 @@ defineProps({
 
 <template>
   <div class="p-6">
-    <h1 class="text-2xl font-bold mb-4">Photo Spots</h1>
+    <!-- Header row -->
+    <div class="flex justify-between items-center mb-4">
+      <h1 class="text-2xl font-bold">Photo Spots</h1>
+      <Link
+        href="/photo-spots/create"
+        class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition"
+      >
+        + Add New Spot
+      </Link>
+    </div>
+
+    <!-- Grid of cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
       <div
         v-for="spot in spots"
@@ -15,7 +29,7 @@ defineProps({
       >
         <img
           v-if="spot.image_path"
-          :src="`/${spot.image_path}`"
+          :src="`/storage/${spot.image_path}`"
           alt="Spot Image"
           class="w-full h-48 object-cover rounded mb-2"
         />

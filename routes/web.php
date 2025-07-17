@@ -6,6 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\PhotoSpot;
+use App\Http\Controllers\PhotoSpotController;
 
 
 /*
@@ -38,6 +39,18 @@ Route::get('/photo-spots', function () {
         'spots' => PhotoSpot::all(),
     ]);
 });
+
+Route::get('/photo-spots', function () {
+    return Inertia::render('PhotoSpots', [
+        'spots' => PhotoSpot::all(),
+    ]);
+})->name('photo-spots.index');
+
+Route::post('/photo-spots', [PhotoSpotController::class, 'store'])->name('photo-spots.store');
+
+Route::get('/photo-spots/create', function () {
+    return Inertia::render('PhotoSpotCreate');
+})->name('photo-spots.create');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
