@@ -5,6 +5,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\PhotoSpot;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -31,7 +33,10 @@ Route::get('/dashboard', function () {
 
 // ✅ New Route: Photo Spots Page
 Route::get('/photo-spots', function () {
-    return Inertia::render('PhotoSpots');
+    //return Inertia::render('PhotoSpots');
+    return Inertia::render('PhotoSpots', [
+        'spots' => PhotoSpot::all(),
+    ]);
 });
 
 Route::middleware('auth')->group(function () {
