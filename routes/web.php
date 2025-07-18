@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\AIController;
+use App\Http\Controllers\AttractionController;
+use App\Http\Controllers\AttractionMapController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +22,7 @@ Route::get('/', function () {
     return Inertia::render('Qr', [
     ]);
 });
+ 
 
 Route::get('/admin', function () {
     return Inertia::render('Welcome', [
@@ -37,6 +41,13 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    Route::get('/attraction', [AttractionController::class, 'index'])->name('attraction.index');
+    Route::post('/attraction/store', [AttractionController::class, 'store'])->name('attraction.store');
+    Route::get('/attractionsmap/map', [AttractionMapController::class, 'showMap']);
+
+
+
 });
 
 require __DIR__.'/auth.php';

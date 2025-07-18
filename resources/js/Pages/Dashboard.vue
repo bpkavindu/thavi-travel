@@ -1,22 +1,29 @@
-<script setup>
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
-import { Head } from '@inertiajs/vue3';
-</script>
-
+<!-- resources/js/Pages/Dashboard.vue -->
 <template>
-    <Head title="Dashboard" />
+    <DashboardLayout>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
 
-    <AuthenticatedLayout>
-        <template #header>
-            <h2 class="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>
-        </template>
+            <!-- Attractions -->
+            <Card icon="📍" title="Attractions" color="bg-gradient-to-r from-pink-500 to-yellow-500" link="/attraction"
+                as="button" />
 
-        <div class="py-12">
-            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <div class="p-6 text-gray-900">You're logged in!</div>
-                </div>
-            </div>
+            <!-- Map -->
+            <Card icon="🗺️" title="Map" color="bg-gradient-to-r from-green-400 to-blue-500" link="/attractionsmap/map"
+                as="button" />
+
+            <!-- Profile -->
+            <Card icon="👤" title="Profile" color="bg-gradient-to-r from-blue-500 to-cyan-500" link="/profile"
+                as="button" />
+
+            <!-- Logout -->
+            <Card icon="🚪" title="Logout" color="bg-gradient-to-r from-red-500 to-pink-500"  link="/logout"
+                method="post" as="button" />
+
         </div>
-    </AuthenticatedLayout>
+    </DashboardLayout>
 </template>
+
+<script setup>
+import DashboardLayout from '@/Layouts/DashboardLayout.vue'
+import Card from '@/Components/DashboardCard.vue'
+</script>
