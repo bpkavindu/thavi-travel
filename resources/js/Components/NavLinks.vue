@@ -4,18 +4,22 @@
     <Link href="/dashboard" class="text-gray-700 hover:text-blue-600">Dashboard</Link>
     <Link href="/attraction" class="text-gray-700 hover:text-blue-600">Attractions</Link>
     <Link href="/attractionsmap/map" class="text-gray-700 hover:text-blue-600">Map</Link>
+    <Link v-if="user?.user_type_id === 1" href="/users" class="text-gray-700 hover:text-blue-600">Users</Link>
     <Link href="/profile" class="text-gray-700 hover:text-blue-600">Profile</Link>
     <Link href="/logout" method="post" as="button" class="text-red-600 hover:text-red-800">Logout</Link>
   </div>
 </template>
 
 <script setup>
-import { Link } from '@inertiajs/vue3'
+import { usePage,Link } from '@inertiajs/vue3'
+import { computed } from 'vue'
 
+const page = usePage()
 defineProps({
   vertical: {
     type: Boolean,
     default: false
   }
 })
+const user = computed(() => page.props.auth.user)
 </script>
