@@ -59,6 +59,8 @@
                 color="bg-gradient-to-r from-purple-500 to-indigo-500" link="/users" as="button" />
             <Card icon="👤" title="Profile" color="bg-gradient-to-r from-blue-500 to-cyan-500" link="/profile"
                 as="button" />
+            <Card  v-if="user?.user_type_id === 1" icon="💬" title="Chat" color="bg-gradient-to-r from-purple-500 to-pink-500" link="/admin/chats"
+                as="button" />
             <Card icon="🚪" title="Logout" color="bg-gradient-to-r from-red-500 to-pink-500" link="/logout"
                 method="post" as="button" />
         </div>
