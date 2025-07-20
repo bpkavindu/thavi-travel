@@ -5,17 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\PhotoSpot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
 
 class PhotoSpotController extends Controller
 {
-    public function index()
-    {
-        return Inertia::render('PhotoSpots', [
-            'spots' => PhotoSpot::all(),
-        ]);
-    }
-
     public function store(Request $request)
     {
         $validated = $request->validate([
