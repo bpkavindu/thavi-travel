@@ -1,4 +1,5 @@
 <template>
+   <AppLayout>
   <div class="min-h-screen bg-gray-50 flex items-center justify-center p-4 sm:p-6 lg:p-8 font-inter">
     <div class="bg-white rounded-xl shadow-lg p-6 sm:p-8 lg:p-10 w-full max-w-2xl">
       <div class="text-center mb-8">
@@ -76,11 +77,13 @@
       </form>
     </div>
   </div>
+  </AppLayout>
 </template>
 
 <script setup>
 import { reactive } from 'vue'
 import { useForm } from '@inertiajs/vue3'
+import AppLayout from '@/Layouts/AppLayout.vue'
 
 // Dropdown options
 const dayOptions = ['1-3 days', '4-7 days', '8-14 days', '15+ days']
