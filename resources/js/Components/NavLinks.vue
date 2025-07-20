@@ -2,6 +2,7 @@
 <template>
   <div :class="vertical ? 'flex flex-col space-y-2' : 'flex space-x-4'">
     <Link href="/dashboard" class="text-gray-700 hover:text-blue-600">Dashboard</Link>
+    <Link href="/tourplanner" class="text-gray-700 hover:text-blue-600">AI Tour Planner</Link>
     <Link href="/attraction" class="text-gray-700 hover:text-blue-600">Attractions</Link>
     <Link href="/attractionsmap/map" class="text-gray-700 hover:text-blue-600">Map</Link>
     <Link v-if="user?.user_type_id === 1" href="/users" class="text-gray-700 hover:text-blue-600">Users</Link>

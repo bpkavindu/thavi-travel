@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AiTourPlannerController;
 use App\Http\Controllers\AdminChatController;
 use App\Http\Controllers\AIController;
 use App\Http\Controllers\AttractionController;
@@ -46,6 +47,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/tourplanner', [AiTourPlannerController::class, 'index'])->name('tourplanner.index');
+    Route::post('/tour-plan/basic-info', [AiTourPlannerController::class, 'store']);
+    Route::get('/tour-plan/itinerary', [AiTourPlannerController::class, 'showItinerary'])->name('tour.itinerary');
     Route::get('/attraction', [AttractionController::class, 'index'])->name('attraction.index');
     Route::post('/attraction/store', [AttractionController::class, 'store'])->name('attraction.store');
     Route::get('/attractionsmap/map', [AttractionMapController::class, 'showMap']);
@@ -63,5 +67,6 @@ Route::middleware('auth')->group(function () {
 
 
 });
+
 
 require __DIR__.'/auth.php';
