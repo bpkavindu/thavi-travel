@@ -5,26 +5,38 @@ namespace App\Http\Controllers;
 use App\Models\PhotoSpot;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class PhotoSpotController extends Controller
 {
-    public function store(Request $request)
+    public function index()
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'location' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'image' => 'nullable|image|max:2048',  // max 2MB
-            'qr_code' => 'nullable|string|max:100',
+        $spots = PhotoSpot::all();
+        return Inertia::render('PhotoSpots', [
+            'spots' => $spots
         ]);
-
-        if ($request->hasFile('image')) {
-            $path = $request->file('image')->store('public/images');
-            $validated['image_path'] = str_replace('public/', '', $path);
-        }
-
-        PhotoSpot::create($validated);
-
-        return redirect()->route('photo-spots.index')->with('success', 'Photo spot added!');
     }
+    public function store(Request $request)
+{
+    $data = $request->validate([
+        'name' => 'required|string',
+        'location' => 'required|string',
+        'province' => 'nullable|string',
+        'description' => 'nullable|string',
+        'best_time' => 'nullable|string',
+        'difficulty' => 'required|string',
+        'rating' => 'required|numeric|min:0|max:5',
+        'likes' => 'nullable|integer',
+        'image' => 'nullable|image|max:2048',
+    ]);
+
+    if ($request->hasFile('image')) {
+        $data['image'] = $request->file('image')->store('photo_spots', 'public');
+    }
+
+    PhotoSpot::create($data);
+
+    return redirect()->back()->with('success', 'Photo spot added!');
+}
+
 }

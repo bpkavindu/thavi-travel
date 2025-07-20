@@ -1,55 +1,56 @@
 <template>
-  <div class="p-8 bg-white min-h-screen">
-    <h1 class="text-4xl font-bold text-center mb-2">Sri Lankan Photo Spots</h1>
-    <p class="text-center text-gray-500 mb-10">Capture the beauty of the Pearl of the Indian Ocean</p>
+  <div class="p-6">
+    <h1 class="text-3xl font-bold mb-2">Sri Lankan Photo Spots</h1>
+    <p class="text-gray-600 mb-6">Capture the beauty of the Pearl of the Indian Ocean</p>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      <!-- Sigiriya Card -->
-      <div class="border rounded-xl shadow-md p-4 relative">
-        <div class="absolute top-2 left-2 bg-gray-800 text-white px-2 py-1 text-xs rounded">📸 Photo Spot</div>
-        <div class="absolute top-2 right-2 bg-red-600 text-white px-2 py-1 text-xs rounded">Hard</div>
-        <div class="text-sm text-gray-600 mt-20">Best: 6:00 AM - 8:00 AM</div>
-        <h2 class="text-xl font-semibold mt-2">Sigiriya Lion Rock</h2>
-        <p class="text-gray-500">📍 Dambulla, Central Province</p>
-        <p class="mt-2 text-gray-700">Ancient fortress with breathtaking sunrise views</p>
-        <div class="flex flex-wrap gap-2 mt-3 text-xs">
-          <span class="bg-gray-200 px-2 py-1 rounded">Sunrise</span>
-          <span class="bg-gray-200 px-2 py-1 rounded">Ancient</span>
-          <span class="bg-gray-200 px-2 py-1 rounded">UNESCO</span>
-        </div>
-        <div class="flex items-center justify-between mt-4">
-          <div class="flex items-center gap-2">
-            <span>❤️ 3250</span>
-            <button class="text-blue-500">🔗 Share</button>
+    <div class="grid md:grid-cols-2 gap-6">
+      <div
+        v-for="spot in spots"
+        :key="spot.id"
+        class="bg-white shadow rounded-xl overflow-hidden"
+      >
+        <!-- Image placeholder -->
+        <div class="relative bg-gray-100 h-48 flex items-center justify-center">
+          <span class="text-gray-400 text-xl">📷 Photo Spot</span>
+          <div
+            class="absolute top-2 left-2 bg-white text-xs px-2 py-1 rounded-full shadow"
+          >
+            Best: {{ spot.best_time }}
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-yellow-500">⭐ 4.9</span>
-            <button class="bg-blue-600 text-white px-4 py-1 rounded">Get Directions</button>
+          <div
+            class="absolute top-2 right-2 text-white text-xs font-bold px-2 py-1 rounded-full"
+            :class="spot.difficulty === 'Hard' ? 'bg-red-500' : spot.difficulty === 'Easy' ? 'bg-green-500' : 'bg-yellow-500'"
+          >
+            {{ spot.difficulty }}
           </div>
         </div>
-      </div>
 
-      <!-- Nine Arch Bridge Card -->
-      <div class="border rounded-xl shadow-md p-4 relative">
-        <div class="absolute top-2 left-2 bg-gray-800 text-white px-2 py-1 text-xs rounded">📸 Photo Spot</div>
-        <div class="absolute top-2 right-2 bg-green-600 text-white px-2 py-1 text-xs rounded">Easy</div>
-        <div class="text-sm text-gray-600 mt-20">Best: 10:30 AM - 11:30 AM</div>
-        <h2 class="text-xl font-semibold mt-2">Nine Arch Bridge</h2>
-        <p class="text-gray-500">📍 Ella, Uva Province</p>
-        <p class="mt-2 text-gray-700">Iconic railway bridge through emerald tea plantations</p>
-        <div class="flex flex-wrap gap-2 mt-3 text-xs">
-          <span class="bg-gray-200 px-2 py-1 rounded">Train</span>
-          <span class="bg-gray-200 px-2 py-1 rounded">Tea Country</span>
-          <span class="bg-gray-200 px-2 py-1 rounded">Architecture</span>
-        </div>
-        <div class="flex items-center justify-between mt-4">
-          <div class="flex items-center gap-2">
-            <span>❤️ 2890</span>
-            <button class="text-blue-500">🔗 Share</button>
+        <div class="p-4">
+          <div class="flex justify-between items-center mb-1">
+            <h2 class="text-lg font-semibold">{{ spot.name }}</h2>
+            <div class="text-yellow-500 font-semibold text-sm">★ {{ spot.rating }}</div>
           </div>
-          <div class="flex items-center gap-2">
-            <span class="text-yellow-500">⭐ 4.8</span>
-            <button class="bg-blue-600 text-white px-4 py-1 rounded">Get Directions</button>
+          <div class="text-sm text-gray-500 mb-2">
+            📍 {{ spot.location }}, {{ spot.province }}
+          </div>
+          <p class="text-sm text-gray-700 mb-3">{{ spot.description }}</p>
+
+          <div class="flex flex-wrap gap-2 mb-3">
+            <span
+              v-for="tag in spot.tags"
+              :key="tag"
+              class="bg-gray-200 text-xs px-2 py-1 rounded-full"
+            >
+              {{ tag }}
+            </span>
+          </div>
+
+          <div class="flex justify-between items-center">
+            <div class="flex items-center gap-3 text-sm text-gray-600">
+              ❤️ {{ spot.likes }}
+              <button>🔗 Share</button>
+            </div>
+            <button class="bg-blue-600 text-white px-3 py-1 rounded">Get Directions</button>
           </div>
         </div>
       </div>
@@ -57,12 +58,14 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'SriLankanPhotoSpots'
-}
-</script>
+<script setup>
+import { ref, onMounted } from 'vue'
+import axios from 'axios'
 
-<style scoped>
-/* Optional: customize further */
-</style>
+const spots = ref([])
+
+onMounted(async () => {
+  const response = await axios.get('/api/photo-spots')
+  spots.value = response.data
+})
+</script>

@@ -9,11 +9,5 @@ class PhotoSpot extends Model
 {
     use HasFactory;
 
-        protected $fillable = [
-        'name',
-        'location',
-        'description',
-        'image_path',
-        'qr_code',
-    ];
+        protected $guarded = ['id'];
 }
