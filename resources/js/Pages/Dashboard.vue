@@ -49,21 +49,21 @@
 
         <!-- Dashboard cards -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 mt-8"
-            :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }">
-            <Card icon="🤖" title="AI Tour Planner" color="bg-gradient-to-r from-indigo-500 to-purple-500"
+            >
+            <Card :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="🤖" title="AI Tour Planner" color="bg-gradient-to-r from-indigo-500 to-purple-500"
                 link="/tourplanner" as="button" />
-            <Card icon="📍" title="Attractions" color="bg-gradient-to-r from-pink-500 to-yellow-500" link="/attraction"
+            <Card :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="📍" title="Attractions" color="bg-gradient-to-r from-pink-500 to-yellow-500" link="/attraction"
                 as="button" />
-            <Card icon="🗺️" title="Map" color="bg-gradient-to-r from-green-400 to-blue-500" link="/attractionsmap/map"
+            <Card :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="🗺️" title="Map" color="bg-gradient-to-r from-green-400 to-blue-500" link="/attractionsmap/map"
                 as="button" />
-            <Card icon="📸" title="Photo Spots" color="bg-gradient-to-r from-pink-400 to-purple-500" link="/photo-spots"
+            <Card :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="📸" title="Photo Spots" color="bg-gradient-to-r from-pink-400 to-purple-500" link="/photo-spots"
                 as="button" />
 
-            <Card v-if="user?.user_type_id === 1" icon="🧑‍🤝‍🧑" title="Users"
+            <Card v-if="user?.user_type_id === 1" :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="🧑‍🤝‍🧑" title="Users"
                 color="bg-gradient-to-r from-purple-500 to-indigo-500" link="/users" as="button" />
-            <Card icon="👤" title="Profile" color="bg-gradient-to-r from-blue-500 to-cyan-500" link="/profile"
+            <Card :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="👤" title="Profile" color="bg-gradient-to-r from-blue-500 to-cyan-500" link="/profile"
                 as="button" />
-            <Card v-if="user?.user_type_id === 1" icon="💬" title="Chat"
+            <Card v-if="user?.user_type_id === 1" :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="💬" title="Chat"
                 color="bg-gradient-to-r from-purple-500 to-pink-500" link="/admin/chats" as="button" />
             <Card icon="🚪" title="Logout" color="bg-gradient-to-r from-red-500 to-pink-500" link="/logout"
                 method="post" as="button" />
