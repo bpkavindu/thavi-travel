@@ -21,6 +21,9 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'user_type_id',
+        'status',
+        
     ];
 
     /**
@@ -41,4 +44,19 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function user_type()
+{
+    return $this->belongsTo(UserType::class);
+}
+
+public function chats()
+{
+    return $this->hasMany(Chat::class);
+}
+
+public function latestChat()
+{
+    return $this->hasOne(Chat::class)->latestOfMany();
+}
 }

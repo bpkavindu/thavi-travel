@@ -17,7 +17,7 @@
           🎲 Get Current Location!
           <span v-if="loadingLocation" class="ml-2 animate-spin">⏳</span>
         </button>
-        <button class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700"
+        <button v-if="user?.user_type_id === 1" class="bg-green-600 text-white px-4 py-2 rounded-lg shadow hover:bg-green-700"
           @click="showAddForm = true">
           ➕ Add Attraction
         </button>
@@ -182,10 +182,12 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { usePage,router } from '@inertiajs/vue3'
 import { route } from 'ziggy-js'
 import AppLayout from '@/Layouts/AppLayout.vue'
 
+const page = usePage()
+const user = computed(() => page.props.auth.user)
 // Categories
 const categories = [
   { name: 'All', activeClass: 'bg-blue-600 text-black', icon: '🏠' },
