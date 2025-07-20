@@ -40,6 +40,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('/tourplanner', [AiTourPlannerController::class, 'index'])->name('tourplanner.index');
+    Route::post('/tour-plan/basic-info', [AiTourPlannerController::class, 'store']);
+    Route::get('/tour-plan/itinerary', [AiTourPlannerController::class, 'showItinerary'])->name('tour.itinerary');
 });
+
 
 require __DIR__.'/auth.php';
