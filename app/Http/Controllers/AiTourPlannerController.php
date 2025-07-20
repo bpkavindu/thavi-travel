@@ -76,7 +76,7 @@ private function getAIActivities($data)
             . "List only the activities, comma-separated.";
 
     $response = Http::withHeaders([
-        'Authorization' => 'Bearer ' . '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',
+        'Authorization' => 'Bearer ' . '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',
     ])->post('https://openrouter.ai/api/v1/chat/completions', [
         'model' => 'deepseek/deepseek-chat',
         'messages' => [
@@ -88,7 +88,6 @@ private function getAIActivities($data)
         $content = $response['choices'][0]['message']['content'] ?? '';
         return array_map('trim', explode(',', $content));
     }
-dd($response);
     return ['Explore the destination', 'Visit local attractions'];
 }
 
