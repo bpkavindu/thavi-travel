@@ -1,6 +1,14 @@
 
 <?php
 
+use App\Http\Controllers\AiTourPlannerController;
+use App\Http\Controllers\AdminChatController;
+use App\Http\Controllers\AIController;
+use App\Http\Controllers\AttractionController;
+use App\Http\Controllers\AttractionMapController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\ChatController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +27,7 @@ Route::get('/', function () {
     return Inertia::render('Qr');
 });
 
+
 Route::get('/admin', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
@@ -28,9 +37,9 @@ Route::get('/admin', function () {
     ]);
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 
 
@@ -39,8 +48,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-     Route::get('/photo-spots', [PhotoSpotController::class, 'index'])->name('photo-spots.index');
-     Route::post('/photo-spots', [PhotoSpotController::class, 'store'])->name('photo-spots.store');
+    Route::get('/photo-spots', [PhotoSpotController::class, 'index'])->name('photo-spots.index');
+    Route::post('/photo-spots', [PhotoSpotController::class, 'store'])->name('photo-spots.store');
+    Route::get('/tourplanner', [AiTourPlannerController::class, 'index'])->name('tourplanner.index');
+    Route::post('/tour-plan/basic-info', [AiTourPlannerController::class, 'store']);
+    Route::get('/tour-plan/itinerary', [AiTourPlannerController::class, 'showItinerary'])->name('tour.itinerary');
+    Route::get('/attraction', [AttractionController::class, 'index'])->name('attraction.index');
+    Route::post('/attraction/store', [AttractionController::class, 'store'])->name('attraction.store');
+    Route::get('/attractionsmap/map', [AttractionMapController::class, 'showMap']);
+    Route::get('/users', [RegisteredUserController::class, 'index'])->name('users.index');
+    Route::patch('/users/{user}', [RegisteredUserController::class, 'update']);
+
+    //    Route::get('/chat', [ChatController::class, 'index']);
+    Route::post('/chat/send', [ChatController::class, 'store']);
+    Route::get('/admin/chats', [AdminChatController::class, 'index'])->name('admin.chats');
+    Route::get('/admin/chats/{user}', [AdminChatController::class, 'show'])->name('admin.chats.show');
+    Route::post('/admin/chats/{user}', [AdminChatController::class, 'send'])->name('admin.chats.send');
 });
 
-require __DIR__.'/auth.php';
+
+require __DIR__ . '/auth.php';
