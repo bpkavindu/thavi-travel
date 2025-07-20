@@ -1,11 +1,13 @@
 <script setup>
-import { ref } from 'vue'
-import { router } from '@inertiajs/vue3'
+import { ref,computed } from 'vue'
+import { router,usePage } from '@inertiajs/vue3'
+import AppLayout from '@/Layouts/AppLayout.vue'
 
+const page = usePage()
 const props = defineProps({
   spots: Array,
 })
-
+const user = computed(() => page.props.auth.user)
 const showModal = ref(false)
 const fileInput = ref(null) // ref to clear file input later
 const imagePreview = ref(null) // for optional image preview
@@ -74,6 +76,7 @@ function submitForm() {
 </script>
 
 <template>
+   <AppLayout>
   <div class="p-6">
     <!-- Header -->
     <div class="flex items-center justify-between mb-4">
@@ -83,7 +86,7 @@ function submitForm() {
       </div>
 
       <!-- Trigger Modal -->
-      <button
+      <button v-if="user?.user_type_id === 1"
         @click="showModal = true"
         class="inline-block bg-gradient-to-r from-green-400 to-blue-500 text-white px-4 py-2 rounded-lg shadow hover:from-green-500 hover:to-blue-600 transition"
       >
@@ -237,4 +240,5 @@ function submitForm() {
       </div>
     </div>
   </div>
+  </AppLayout>
 </template>
