@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\TourGuide;
 use App\Models\User;
 use App\Models\UserType;
 use App\Providers\RouteServiceProvider;
@@ -55,6 +56,10 @@ public function index(): Response
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'user_type_id' => $request->user_type_id,
+        ]);
+        $yourGuide = TourGuide::create([
+            'user_id' => $user->id,
+            'name' => $request->name,
         ]);
 
         event(new Registered($user));

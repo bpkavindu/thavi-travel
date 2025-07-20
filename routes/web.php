@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\PhotoSpot;
 use App\Http\Controllers\PhotoSpotController;
-
+use App\Http\Controllers\TourGuideController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +64,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/chats', [AdminChatController::class, 'index'])->name('admin.chats');
     Route::get('/admin/chats/{user}', [AdminChatController::class, 'show'])->name('admin.chats.show');
     Route::post('/admin/chats/{user}', [AdminChatController::class, 'send'])->name('admin.chats.send');
+
+    Route::get('/guides', [TourGuideController::class, 'index'])->name('guides.index');
+    Route::post('/guides/{guide}', [TourGuideController::class, 'update']);
 });
 
 
