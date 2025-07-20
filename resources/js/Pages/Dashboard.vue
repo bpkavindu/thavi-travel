@@ -56,6 +56,9 @@
                 as="button" />
             <Card icon="🗺️" title="Map" color="bg-gradient-to-r from-green-400 to-blue-500" link="/attractionsmap/map"
                 as="button" />
+            <Card icon="📸" title="Photo Spots" color="bg-gradient-to-r from-pink-400 to-purple-500" link="/photo-spots"
+                as="button" />
+
             <Card v-if="user?.user_type_id === 1" icon="🧑‍🤝‍🧑" title="Users"
                 color="bg-gradient-to-r from-purple-500 to-indigo-500" link="/users" as="button" />
             <Card icon="👤" title="Profile" color="bg-gradient-to-r from-blue-500 to-cyan-500" link="/profile"

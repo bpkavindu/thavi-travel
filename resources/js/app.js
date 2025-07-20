@@ -12,6 +12,11 @@ import 'leaflet.markercluster/dist/MarkerCluster.Default.css';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+
+import App from './App.vue'
+
+createApp(App).mount('#app')
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.vue`, import.meta.glob('./Pages/**/*.vue')),

@@ -1,3 +1,4 @@
+
 <?php
 
 use App\Http\Controllers\AiTourPlannerController;
@@ -12,22 +13,20 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Models\PhotoSpot;
+use App\Http\Controllers\PhotoSpotController;
+
 
 /*
 |--------------------------------------------------------------------------
 | Web Routes
 |--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
 */
+
 Route::get('/', function () {
-    return Inertia::render('Qr', [
-    ]);
+    return Inertia::render('Qr');
 });
- 
+
 
 Route::get('/admin', function () {
     return Inertia::render('Welcome', [
@@ -42,11 +41,15 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth', 'verified'])
     ->name('dashboard');
 
+
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    Route::get('/photo-spots', [PhotoSpotController::class, 'index'])->name('photo-spots.index');
+    Route::post('/photo-spots', [PhotoSpotController::class, 'store'])->name('photo-spots.store');
     Route::get('/tourplanner', [AiTourPlannerController::class, 'index'])->name('tourplanner.index');
     Route::post('/tour-plan/basic-info', [AiTourPlannerController::class, 'store']);
     Route::get('/tour-plan/itinerary', [AiTourPlannerController::class, 'showItinerary'])->name('tour.itinerary');
@@ -61,12 +64,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/chats', [AdminChatController::class, 'index'])->name('admin.chats');
     Route::get('/admin/chats/{user}', [AdminChatController::class, 'show'])->name('admin.chats.show');
     Route::post('/admin/chats/{user}', [AdminChatController::class, 'send'])->name('admin.chats.send');
-
- 
-
-
-
 });
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

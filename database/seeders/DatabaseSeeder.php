@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             ProvinceSeeder::class,
             UserTypeSeeder::class,
             UserSeeder::class,
+            PhotoSpotSeeder::class,
         ]);
     }
 }
