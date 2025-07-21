@@ -16,6 +16,7 @@ use Inertia\Inertia;
 use App\Models\PhotoSpot;
 use App\Http\Controllers\PhotoSpotController;
 use App\Http\Controllers\TourGuideController;
+use App\Http\Controllers\TourPlansController;
 
 /*
 |--------------------------------------------------------------------------
@@ -67,6 +68,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/guides', [TourGuideController::class, 'index'])->name('guides.index');
     Route::post('/guides/{guide}', [TourGuideController::class, 'update']);
+
+    // routes/web.php or routes/api.php
+
+    Route::post('/tour-plans', [TourPlansController::class, 'store'])->name('tour-plans.store');
+    Route::post('/tour-plans/{id}/update', [TourPlansController::class, 'update'])->name('tour-plans.update');
+    Route::delete('/tour-plans/{id}', [TourPlansController::class, 'destroy'])->name('tour-plans.destroy');
 });
 
 
