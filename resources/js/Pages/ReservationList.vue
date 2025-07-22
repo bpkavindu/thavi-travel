@@ -1,13 +1,42 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue'
 import { computed } from 'vue'
-import { usePage } from '@inertiajs/vue3'
+import { usePage, router } from '@inertiajs/vue3'
 
 const props = defineProps({
     reservations: Array
 })
 
 const user = computed(() => usePage().props.auth.user)
+
+// Cancel reservation
+function cancelReservation(id) {
+    if (confirm('Are you sure you want to cancel this reservation?')) {
+        router.put(`/reservations/${id}/cancel`, {}, {
+            onSuccess: () => {
+                alert('Reservation cancelled successfully')
+            },
+            onError: () => {
+                alert('Failed to cancel reservation')
+            }
+        })
+    }
+}
+
+// Confirm reservation
+function confirmReservation(id) {
+    if (confirm('Are you sure you want to confirm this reservation?')) {
+        router.put(`/reservations/${id}/confirm`, {}, {
+            onSuccess: () => {
+                alert('Reservation confirmed successfully')
+            },
+            onError: () => {
+                alert('Failed to confirm reservation')
+            }
+        })
+    }
+}
+
 </script>
 
 <template>
@@ -43,16 +72,18 @@ const user = computed(() => usePage().props.auth.user)
                             <span v-else class="text-red-600">Cancelled</span>
                         </td>
                         <td>
-                            <div class="flex gap-2">
-                                <button v-if="res.status !== 3" @click="cancelReservation(res.id)"
+                            <div v-if="res.status !== '3'" class="flex gap-2">
+                                <button @click="cancelReservation(res.id)"
                                     class="px-3 py-1 text-sm bg-red-500 text-white rounded hover:bg-red-600">
                                     Cancel Reservation
                                 </button>
+                                <div v-if="res.status !== 1 && user?.user_type_id !== 2">
+                                    <button v-if="res.status !== '2'" @click="confirmReservation(res.id)"
+                                        class="px-3 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600">
+                                        Confirm Reservation{{ res.status }}
+                                    </button>
 
-                                <button  v-if="res.status !== 1 && user?.user_type_id !== 2" @click="confirmReservation(res.id)"
-                                    class="px-3 py-1 text-sm bg-green-500 text-white rounded hover:bg-green-600">
-                                    Confirm Reservation
-                                </button>
+                                </div>
                             </div>
                         </td>
                         <td>

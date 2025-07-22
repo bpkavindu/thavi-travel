@@ -98,4 +98,22 @@ class ReservationController extends Controller
 
         return back()->with('success', 'Reservation canceled successfully.');
     }
+
+    public function cancel($id)
+{
+    $reservation = Reservation::findOrFail($id);
+    $reservation->status = 3; // 3 = Cancelled
+    $reservation->save();
+
+    return redirect()->back()->with('success', 'Reservation cancelled.');
+}
+
+public function confirm($id)
+{
+    $reservation = Reservation::findOrFail($id);
+    $reservation->status = 2; // 2 = Confirmed
+    $reservation->save();
+
+    return redirect()->back()->with('success', 'Reservation confirmed.');
+}
 }

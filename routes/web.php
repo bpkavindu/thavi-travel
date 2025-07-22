@@ -79,6 +79,9 @@ Route::middleware('auth')->group(function () {
     Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
     Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
     Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+    Route::put('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
+    Route::put('/reservations/{id}/confirm', [ReservationController::class, 'confirm']);
+
 
 });
 
