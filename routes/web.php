@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\PhotoSpot;
 use App\Http\Controllers\PhotoSpotController;
+use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\TourGuideController;
 use App\Http\Controllers\TourPlansController;
 
@@ -74,6 +75,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/tour-plans', [TourPlansController::class, 'store'])->name('tour-plans.store');
     Route::post('/tour-plans/{id}/update', [TourPlansController::class, 'update'])->name('tour-plans.update');
     Route::delete('/tour-plans/{id}', [TourPlansController::class, 'destroy'])->name('tour-plans.destroy');
+    Route::get('/book-guide/{id}', [TourPlansController::class, 'index']);
+    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+
 });
 
 

@@ -2,14 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\TourGuide;
 use App\Models\TourPlanDays;
 use App\Models\TourPlanImages;
 use App\Models\TourPlans;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Inertia\Inertia;
 
 class TourPlansController extends Controller
 {
+    public function index($id)
+    {
+        $guides = TourGuide::latest()->where('id', $id)->get();
+        $plans = TourPlans::with(['days', 'images'])->where('user_id', $guides[0]['user_id'])->latest()->get();
+
+        return Inertia::render('TourPlans', [
+            'guides' => $guides,
+            'tourPlans' => $plans,
+        ]);
+    }
     public function store(Request $request)
     {
 
@@ -45,17 +58,17 @@ class TourPlansController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $image) {
                 $path = $image->store('tour_plans_images', 'public');
-                 $tourPlanimg = TourPlanImages::create([
+                $tourPlanimg = TourPlanImages::create([
                     'tour_plan_id' => $tourPlan->id,
                     'path' => $path,
-            ]);
+                ]);
             }
         }
 
         return redirect()->back()->with('success', 'Tour plan created successfully.');
     }
 
-      public function update(Request $request, $id)
+    public function update(Request $request, $id)
     {
         $tourPlan = TourPlans::findOrFail($id);
 
@@ -100,7 +113,7 @@ class TourPlansController extends Controller
         // Save new uploaded images
         if ($request->hasFile('newImages')) {
             foreach ($request->file('newImages') as $file) {
-                 $path = $file->store('tour_plans_images', 'public');
+                $path = $file->store('tour_plans_images', 'public');
                 $tourPlan->images()->create([
                     'path' => $path,
                 ]);
@@ -118,7 +131,6 @@ class TourPlansController extends Controller
         // Delete tour plan itself
         $tourPlan->delete();
 
-         return redirect()->back()->with('success', 'Tour Plan deleted successfully');
+        return redirect()->back()->with('success', 'Tour Plan deleted successfully');
     }
-
 }

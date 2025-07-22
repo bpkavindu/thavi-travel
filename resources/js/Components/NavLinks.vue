@@ -12,6 +12,8 @@
 
     <Link href="/guides" :class="linkClass('/guides')">Tours & Tickets</Link>
 
+    <Link href="/reservations" :class="linkClass('/reservations')">Reservations</Link>
+
     <Link v-if="user?.user_type_id === 1" href="/users" :class="linkClass('/users')">Users</Link>
 
     <Link href="/profile" :class="linkClass('/profile')">Profile</Link>

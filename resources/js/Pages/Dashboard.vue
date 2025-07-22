@@ -64,6 +64,9 @@
             <Card :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="🎫"
                 title="Tours & Tickets" color="bg-gradient-to-r from-yellow-400 to-red-500" link="/guides"
                 as="button" />
+            <Card :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="📅"
+                title="Reservations" color="bg-gradient-to-r from-green-400 to-blue-500" link="/reservations"
+                as="button" />
             <Card v-if="user?.user_type_id === 1"
                 :class="{ 'pointer-events-none opacity-50': userStatus === 3 || userStatus === 2 }" icon="🧑‍🤝‍🧑"
                 title="Users" color="bg-gradient-to-r from-purple-500 to-indigo-500" link="/users" as="button" />

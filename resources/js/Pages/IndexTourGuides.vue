@@ -223,7 +223,9 @@ function cancelDelete() {
     showConfirmModal.value = false
     tourIdToDelete.value = null
 }
-
+function bookNow(guideId) {
+    router.get(`/book-guide/${guideId}`)
+}
 </script>
 
 <template>
@@ -242,7 +244,7 @@ function cancelDelete() {
                 </button>
             </div>
             <div v-if="user?.user_type_id !== 4" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div v-for="guide in props.guides" :key="guide.id" class="bg-white rounded shadow p-4">
+                <div v-for="guide in props.guides" :key="guide.id" class="bg-white rounded shadow p-4 flex flex-col">
                     <img v-if="guide.photo" :src="'storage/' + guide.photo" alt="Guide Photo"
                         class="w-full h-48 object-cover rounded mb-3" />
                     <h2 class="text-lg font-bold">{{ guide.name }}</h2>
@@ -252,6 +254,11 @@ function cancelDelete() {
                     <p class="text-sm text-gray-600">Locations: {{ guide.locations }}</p>
                     <p class="text-sm text-gray-600">Specialties: {{ guide.specialties }}</p>
                     <p class="text-yellow-500 font-bold mt-1">⭐ {{ guide.rating }}</p>
+
+                    <button @click="bookNow(guide.id)"
+                        class="mt-auto bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition-all duration-200">
+                        Book a tour
+                    </button>
                 </div>
             </div>
             <div v-if="user?.user_type_id === 4" class="flex">
@@ -306,6 +313,11 @@ function cancelDelete() {
 
                             <!-- Scrollable inner content -->
                             <div class="h-[200px] overflow-y-auto pr-2">
+                                <div class="flex gap-2 mt-2 flex-wrap">
+                                    <img v-for="img in plan.images" :key="img.id" :src="'/storage/' + img.path"
+                                        class="w-20 h-20 object-cover rounded border cursor-pointer" alt="Tour image"
+                                        @click="openPreview(plan.images, '/storage/' + img.path)" />
+                                </div>
                                 <ul class="list-disc list-inside text-gray-700 mb-2">
                                     <li v-for="(day, i) in plan.days" :key="day.id">
                                         <b><span>Day {{ i + 1 }} - {{ day.title }}</span></b>
@@ -313,11 +325,6 @@ function cancelDelete() {
                                     </li>
                                 </ul>
 
-                                <div class="flex gap-2 mt-2 flex-wrap">
-                                    <img v-for="img in plan.images" :key="img.id" :src="'/storage/' + img.path"
-                                        class="w-20 h-20 object-cover rounded border cursor-pointer" alt="Tour image"
-                                        @click="openPreview(plan.images, '/storage/' + img.path)" />
-                                </div>
                             </div>
                         </div>
                     </div>

@@ -20,7 +20,7 @@ class TourGuideController extends Controller
         $plans = TourPlans::with(['days', 'images'])->latest()->where('user_id',Auth::user()->id)->get();
 
     }else{
-    $guides = TourGuide::latest()->get();
+   $guides = TourGuide::inRandomOrder()->get();
     $plans = TourPlans::with(['days', 'images'])->latest()->get();
 
     }
