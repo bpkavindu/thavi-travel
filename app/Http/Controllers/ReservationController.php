@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\GuideReservationNotification;
 use App\Models\Reservation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 
 class ReservationController extends Controller
@@ -50,8 +54,39 @@ class ReservationController extends Controller
             'status' => \App\Enums\ReservationStatus::PENDING->value, // Use enum
         ]);
 
+        $formattedPhone = ltrim($validated['phone'], '0');
+        if (!str_starts_with($formattedPhone, '94')) {
+            $formattedPhone = '94' . $formattedPhone;
+        }
+        $message = "Hello {$reservation->guide->name}, you have received a new reservation (Ref: #{$reservation->id}) from {$user->name}. Tour: {$reservation->tourPlan->title}, Guests: {$reservation->guest_count}, Date: {$reservation->start_date} to {$reservation->end_date}.";
+
+        if (env('NOTIFY_USER_ID') == null) {
+            $this->sendSms($formattedPhone, $message);
+        }
+
         return redirect()->back()->with('success', 'Reservation submitted successfully.');
     }
+
+    public function sendSms($to, $message)
+    {
+        $user_id   = env('NOTIFY_USER_ID');
+        $api_key   = env('NOTIFY_API_KEY');
+        $sender_id = env('NOTIFY_SENDER_ID');
+
+        $response = Http::asForm()->post('https://app.notify.lk/api/v1/send', [
+            'user_id'   => $user_id,
+            'api_key'   => $api_key,
+            'sender_id' => $sender_id,
+            'to'        => $to,
+            'message'   => $message,
+        ]);
+
+        if (!$response->successful()) {
+            Log::error('SMS sending failed', ['response' => $response->body()]);
+        }
+    }
+
+
     public function destroy(Reservation $reservation)
     {
         $reservation->delete();
