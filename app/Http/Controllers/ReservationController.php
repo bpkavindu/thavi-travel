@@ -15,11 +15,16 @@ class ReservationController extends Controller
 {
     public function index()
     {
-        if (Auth::user()->user_type_id == 4 || Auth::user()->user_type_id == 2) {
+        if (Auth::user()->user_type_id == 4) {
             $reservations = Reservation::with(['user', 'guide', 'tourPlan'])->where('guide_id', Auth::user()->id)
                 ->latest()
                 ->get();
-        } else {
+        } elseif(Auth::user()->user_type_id == 2){
+             $reservations = Reservation::with(['user', 'guide', 'tourPlan'])->where('traveller_id', Auth::user()->id)
+                ->latest()
+                ->get();
+        }
+        else {
             $reservations = Reservation::with(['user', 'guide', 'tourPlan'])
                 ->latest()
                 ->get();
