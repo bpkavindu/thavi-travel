@@ -21,6 +21,7 @@
         "@heroicons/vue": "^2.2.0",
         "leaflet": "^1.9.4",
         "leaflet.markercluster": "^1.5.3",
+        "vuedraggable": "^4.1.0",
         "ziggy-js": "^2.5.3"
     }
 }

@@ -15,7 +15,9 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Models\PhotoSpot;
 use App\Http\Controllers\PhotoSpotController;
-
+use App\Http\Controllers\ReservationController;
+use App\Http\Controllers\TourGuideController;
+use App\Http\Controllers\TourPlansController;
 
 /*
 |--------------------------------------------------------------------------
@@ -64,6 +66,23 @@ Route::middleware('auth')->group(function () {
     Route::get('/admin/chats', [AdminChatController::class, 'index'])->name('admin.chats');
     Route::get('/admin/chats/{user}', [AdminChatController::class, 'show'])->name('admin.chats.show');
     Route::post('/admin/chats/{user}', [AdminChatController::class, 'send'])->name('admin.chats.send');
+
+    Route::get('/guides', [TourGuideController::class, 'index'])->name('guides.index');
+    Route::post('/guides/{guide}', [TourGuideController::class, 'update']);
+
+    // routes/web.php or routes/api.php
+
+    Route::post('/tour-plans', [TourPlansController::class, 'store'])->name('tour-plans.store');
+    Route::post('/tour-plans/{id}/update', [TourPlansController::class, 'update'])->name('tour-plans.update');
+    Route::delete('/tour-plans/{id}', [TourPlansController::class, 'destroy'])->name('tour-plans.destroy');
+    Route::get('/book-guide/{id}', [TourPlansController::class, 'index']);
+    Route::post('/reservations', [ReservationController::class, 'store'])->name('reservations.store');
+    Route::delete('/reservations/{reservation}', [ReservationController::class, 'destroy'])->name('reservations.destroy');
+    Route::get('/reservations', [ReservationController::class, 'index'])->name('reservations.index');
+    Route::put('/reservations/{id}/cancel', [ReservationController::class, 'cancel']);
+    Route::put('/reservations/{id}/confirm', [ReservationController::class, 'confirm']);
+
+
 });
 
 
