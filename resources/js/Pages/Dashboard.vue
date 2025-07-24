@@ -97,7 +97,8 @@ const user = usePage().props.auth.user
 const userStatus = computed(() => Number(user.status))
 const chatOpen = ref(false)
 const newMessage = ref('')
-const chatMessages = ref([...props.chatMessages])
+const chatMessages = ref(Array.isArray(props.chatMessages) ? [...props.chatMessages] : [])
+
 
 async function sendMessage() {
     if (newMessage.value.trim()) {
